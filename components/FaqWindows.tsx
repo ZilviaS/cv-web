@@ -39,7 +39,7 @@ export default function FaqWindows({ onClose }: Props){
 
     return(
         <Draggable nodeRef={nodeRef} disabled={isMobile} handle=".title-bar">
-            <div ref={nodeRef} className="absolute top-40 md:w-200 w-full title-bar bg-white border-2 border-gray-300 rounded md:cursor-move">
+            <div ref={nodeRef} className="absolute top-40 md:left-40 md:w-200 w-full title-bar bg-white border-2 border-gray-300 rounded md:cursor-move">
                 <div className="bg-blue-400 flex items-center h-5 relative title-bar cursor-move">
                 <button onClick={onClose} className="absolute left-1 w-4 h-4 bg-gray-200 border border-gray-500 text-black text-xs leading-none flex items-center justify-center hover:bg-gray-300">x</button>
                 <p className="w-full text-center chicago text-white text-sm">
