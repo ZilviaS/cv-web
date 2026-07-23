@@ -1,26 +1,102 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+@font-face{
+  font-family: "Chicago";
+  src: url("../public/fonts/ChicagoFLF.ttf") format("truetype");
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.chicago{
+  font-family: "Chicago";
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.wave{
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: url('../public/wave.png');
+  background-size: 1000px 100px;
+}
+
+.wave.wave1{
+  animation: animate 30s linear infinite;
+  z-index: 1000;
+  opacity: 1;
+  animation-delay: 0s;
+  bottom: 0px;
+}
+
+.wave.wave2{
+  animation: animate2 30s linear infinite;
+  z-index: 999;
+  opacity: 0.5;
+  animation-delay: -5s;
+  bottom: 10px;
+}
+
+.wave.wave3{
+  animation: animate 30s linear infinite;
+  z-index: 998;
+  opacity: 0.2;
+  animation-delay: -2s;
+  bottom: 10px;
+}
+
+.wave.wave4{
+  animation: animate 15s linear infinite;
+  z-index: 997;
+  opacity: 0.5;
+  animation-delay: -5s;
+  bottom: 20px;
+}
+
+@keyframes animate {
+  from{
+    background-position-x: 0px;
+  }
+  to{
+    background-position-x: 1000px;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+@keyframes animate2 {
+  from{
+    background-position-x: 0px;
+  }
+  to{
+    background-position-x: -1000px;
+  }
+}
+
+.windows{
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  border-right: 2px solid #555;
+  border-right: 2px solid #555;
+}
+
+.windows-in{
+  background: white;
+  border-top: 2px solid #555;
+  border-left: 2px solid #555;
+  border-right: 2px solid white;
+  border-right: 2px solid white;
+}
+
+.windows-button{
+  border-top:2px solid white;
+  border-left:2px solid white;
+  border-right:2px solid #555;
+  border-bottom:2px solid #555;
+}
+
+.windows-button:active{
+  border-top: 2px solid #555;
+  border-left: 2px solid #555;
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+  transform: translate(1px, 1px);
 }

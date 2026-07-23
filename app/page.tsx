@@ -1,65 +1,194 @@
+"use client";
+
 import Image from "next/image";
+import { KoHo } from "next/font/google"
+import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import AboutWindow from "@/components/AboutWindows";
+import WorksWindow from "@/components/WorksWindows";
+import FaqWindows from "@/components/FaqWindows";
+import ContactWindows from "@/components/ContactWindows";
+
+
+
+const KoHoFont = KoHo({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"]
+})
+
 
 export default function Home() {
+
+  const open = useRef<HTMLAudioElement | null>(null);
+  const close = useRef<HTMLAudioElement | null>(null);
+
+  const router = useRouter()
+
+  const [ music, setMusic ] = useState(true)
+
+  const [windows, setWindows] = useState({
+    about: false,
+    works: false,
+    contact: false,
+    faq: false,
+  });
+
+  useEffect(() => {
+    open.current = new Audio("/effect/open.mp3");
+    close.current = new Audio("/effect/close.mp3");
+
+    open.current.volume = 0.4;
+    close.current.volume = 0.4;
+  }, []);
+
+  const playOpen = () => {
+      open.current.play();
+  }
+
+  const playClose = () => {
+      close.current.play();
+  }
+
+  const Mute = () =>{
+    open.current.volume = 0;
+    close.current.volume = 0;
+  }
+  const unMute = () =>{
+    open.current.volume = 0.4;
+    close.current.volume = 0.4;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <>
+      <div className="relative w-full h-screen bg-[#3586ff]">
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="wave wave1"></div>
+          <div className="wave wave2"></div>
+          <div className="wave wave3"></div>
+          <div className="wave wave4"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+        
+        <div className="absolute top-5 left-5">
+          <button className="w-8 h-8 pb-1 rounded cursor-pointer" onClick={()=>{
+            if (music){
+              Mute()
+            }else{
+              unMute()
+            }
+            setMusic(!music)
+            }}>
+            <Image src={`${music ? "speaker.svg" : "speaker-close.svg"}`} fill alt=""></Image>
+          </button>
         </div>
-      </main>
-    </div>
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="md:w-200 w-full h-100">
+            <div className="w-full h-6 bg-blue-400 items-center rounded-t border-t-2 border-l-2 border-r-2 border-gray-300">
+              <p className="chicago pl-1 w-full text-center text-white text-sm items-baseline pt-0.5">Home</p>
+            </div>
+            <div className="h-full w-full flex items-center justify-center bg-white rounded-b border-2 border-gray-300">
+              <div className="mt-7">
+                <p className={` ${KoHoFont.className} text-4xl w-full text-center`}>Hi! <span className="text-5xl text-blue-600">i&apos;m Peter</span></p>
+                <p className={`text-sm ${KoHoFont.className} w-full text-center`}>Full Stack Developer, Web Developer, and Game Developer</p>
+                <div className="flex justify-center md:gap-10 gap-5 mt-10">
+                  <div onClick={()=>{
+                    if(!windows.about){
+                      playOpen()
+                    }else{
+                      playClose()
+                    }
+                    setWindows(prev => ({...prev, about : !prev.about}))
+                    }} className="hover:cursor-pointer hover:underline">
+                    <Image className="transition-all duration-200 hover:-translate-y-1 hover:drop-shadow-xl" width={50} height={50} src="/about.svg" alt="" />
+                    <p className="chicago text-xs w-full text-center pt-2">about</p>
+                  </div>
+                  <div onClick={()=>{router.push('https://github.com/ZilviaS')}}  className="hover:cursor-pointer hover:underline">
+                    <Image className="transition-all duration-200 hover:-translate-y-1 hover:drop-shadow-xl" width={50} height={50} src="/github_logo.png" alt="" />
+                    <p className="chicago text-xs w-full text-center pt-2">github</p>
+                  </div>
+                  <div onClick={()=>{
+                    if(!windows.works){
+                      playOpen()
+                    }else{
+                      playClose()
+                    }
+                    setWindows({...windows, works : !windows.works})}}  className="hover:cursor-pointer hover:underline">
+                    <Image className="transition-all duration-200 hover:-translate-y-1 hover:drop-shadow-xl" width={50} height={50} src="/project.svg" alt="" />
+                    <p className="chicago text-xs w-full text-center pt-2">works</p>
+                  </div>
+                  <div onClick={()=>{
+                    if(!windows.faq){
+                      playOpen()
+                    }else{
+                      playClose()
+                    }
+                    setWindows({...windows, faq : !windows.faq})}}  className="hover:cursor-pointer hover:underline">
+                    <Image className="transition-all duration-200 hover:-translate-y-1 hover:drop-shadow-xl" width={50} height={50} src="/feq.svg" alt="" />
+                    <p className="chicago text-xs w-full text-center pt-2">faq</p>
+                  </div>
+                  <div onClick={()=>{
+                    if(!windows.contact){
+                      playOpen()
+                    }else{
+                      playClose()
+                    }
+                    setWindows({...windows, contact : !windows.contact})}}  className="hover:cursor-pointer hover:underline">
+                    <Image className="transition-all duration-200 hover:-translate-y-1 hover:drop-shadow-xl" width={50} height={50} src="/contact.svg" alt="" />
+                    <p className="chicago text-xs w-full text-center pt-2">contact</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {windows.about && (
+          <AboutWindow
+            onClose={() =>{
+              setWindows(prev => ({
+                ...prev,
+                about:false
+              }))
+              playClose()
+            }
+              
+            }
+          />
+        )}
+        {windows.works && (
+          <WorksWindow
+            onClose={()=>{
+              setWindows(prev=>({
+                ...prev,
+                works:false
+              }))
+              playClose()
+            }}/>
+        )}
+        {
+          windows.faq && (
+            <FaqWindows
+              onClose={()=>{
+                setWindows(prev=>({
+                  ...prev,
+                  faq:false
+                }))
+                playClose()
+              }}/>
+          )
+        }
+        {
+          windows.contact && (
+            <ContactWindows
+              onClose={()=>{
+                setWindows(prev=>({
+                  ...prev,
+                  contact:false
+                }))
+                playClose()
+              }}/>
+          )
+        }
+      </div>
+    </>
   );
 }
