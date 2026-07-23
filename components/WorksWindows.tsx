@@ -104,7 +104,7 @@ export default function WorksWindow({ onClose }: Props){
           <div className="w-full h-[1px] my-6 bg-gray-200"></div>
           <div className="md:flex gap-5">
             <div className="w-80 h-50 relative">
-              <Image src="/leedonten.png" fill className="rounded" alt=""></Image>
+              <Image src="/LeeDonTen.png" fill className="rounded" alt=""></Image>
             </div>
             <div className="md:mt-0 mt-3">
               <p className="text-2xl font-medium">LeeDonTen <span className="text-sm">(Musician Donation Platform)</span></p>
