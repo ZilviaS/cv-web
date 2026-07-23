@@ -61,8 +61,7 @@ export default function FaqWindows({ onClose }: Props){
                             <p>• Video Editing: <span className="font-medium">Adobe Premiere Pro</span></p>
                             <p>• Photoshoping: <span className="font-medium">Adobe Photoshop</span> ( it&apos;s in the name ( ദ്ദി ˙ᗜ˙ ) )</p>
                             <p>• Audio Recording: <span className="font-medium">Cakewalk Sonar / Audacity</span></p>
-                            <p>• Script Writing: <span className="font-medium">Notepad </span>( surprising? anywhere to be honest..)</p>
-                            <p className="mt-3">It&apos;s actually in top of the works page btw, <button className="underline text-amber-500">here!</button></p>
+                            <p>• Script Writing: <span className="font-medium">Notepad </span>( surprising? anything to be honest..)</p>
                         </div>
                         
                     </div>
@@ -78,7 +77,7 @@ export default function FaqWindows({ onClose }: Props){
                     <div className={`md:overflow-hidden overflow-y-scroll transition-all duration-500 border-x-1 border-b-1 border-gray-100 text-sm ${pageState.second ? "max-h-136" : "max-h-0"}`}>
                         <div className="p-5">
                             <p className="mb-3">Ahh.. I gonna talk some nerd thing here, lol</p>
-                            <p>• A decent Asus Tuf Dash Gaming Laptop for everything</p>
+                            <p>• A decent 2024 Asus Tuf Dash Gaming Laptop for everything</p>
                             <p>• IBM Model M and QK65 R2 for Keyboard</p>
                             <p className="mt-3">Instruments :</p>
                             <div className="pl-3">
