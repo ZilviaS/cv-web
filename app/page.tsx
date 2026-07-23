@@ -43,20 +43,20 @@ export default function Home() {
   }, []);
 
   const playOpen = () => {
-      open.current.play();
+      open.current?.play();
   }
 
   const playClose = () => {
-      close.current.play();
+      close.current?.play();
   }
 
   const Mute = () =>{
-    open.current.volume = 0;
-    close.current.volume = 0;
+    if (open.current) open.current.volume = 0;
+    if (close.current) close.current.volume = 0;
   }
   const unMute = () =>{
-    open.current.volume = 0.4;
-    close.current.volume = 0.4;
+    if (open.current) open.current.volume = 0.4;
+    if (close.current) close.current.volume = 0.4;
   }
 
   return (
