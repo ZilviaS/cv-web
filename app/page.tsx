@@ -25,6 +25,8 @@ export default function Home() {
 
   const router = useRouter()
 
+  const [time, setTime] = useState(new Date())
+
   const [ music, setMusic ] = useState(true)
 
   const [windows, setWindows] = useState({
@@ -34,6 +36,8 @@ export default function Home() {
     faq: false,
   });
 
+  const [isMute, setIsMute] = useState(false)
+
   useEffect(() => {
     open.current = new Audio("/effect/open.mp3");
     close.current = new Audio("/effect/close.mp3");
@@ -41,6 +45,15 @@ export default function Home() {
     open.current.volume = 0.4;
     close.current.volume = 0.4;
   }, []);
+
+  useEffect(()=>{
+
+    const timer = setInterval(()=>{
+      setTime(new Date())
+    }, 1000)
+
+    return () => clearInterval(timer);
+  },[])
 
   const playOpen = () => {
       open.current?.play();
@@ -51,12 +64,23 @@ export default function Home() {
   }
 
   const Mute = () =>{
+    setIsMute(true)
     if (open.current) open.current.volume = 0;
     if (close.current) close.current.volume = 0;
   }
   const unMute = () =>{
+    setIsMute(false)
     if (open.current) open.current.volume = 0.4;
     if (close.current) close.current.volume = 0.4;
+  }
+
+  const handleClear = ()=>{
+    setWindows({
+      about: false,
+      works: false,
+      contact: false,
+      faq: false,
+    })
   }
 
   return (
@@ -68,18 +92,28 @@ export default function Home() {
           <div className="wave wave3"></div>
           <div className="wave wave4"></div>
         </div>
-        
-        <div className="absolute top-5 left-5">
-          <button className="w-8 h-8 pb-1 rounded cursor-pointer" onClick={()=>{
-            if (music){
-              Mute()
-            }else{
-              unMute()
-            }
-            setMusic(!music)
-            }}>
-            <Image src={`${music ? "speaker.svg" : "speaker-close.svg"}`} fill alt=""></Image>
-          </button>
+        <div className="absolute top-0 left-0 w-full bg-gray-200 h-6 flex justify-between chicago items-center border-b-2 border-gray-400">
+          <div className="text-sm px-1 flex">
+            <button className="windows-button px-1 text-xs" onClick={handleClear}>clear</button>
+            <div className="h-5 w-[1px] mx-0.5 bg-gray-500"></div>
+          </div>
+          <div className="text-sm px-1 flex gap-2">
+            <p className="s">{time.toLocaleTimeString("en-GB",{
+              hour : "numeric",
+              minute : "2-digit",
+              hour12: true
+            })}</p>
+            <button className="w-5 h-5 pb-1 flex justify-center items-center windows-button" onClick={()=>{
+              if (music){
+                Mute()
+              }else{
+                unMute()
+              }
+              setMusic(!music)
+              }}>
+              <Image className="mt-1" src={`${music ? "speaker.svg" : "speaker-close.svg"}`} width={20} height={20} alt=""></Image>
+            </button>
+          </div>
         </div>
         <div className="w-full h-full flex items-center justify-center">
           <div className="md:w-200 w-full h-100">
@@ -162,7 +196,8 @@ export default function Home() {
                 works:false
               }))
               playClose()
-            }}/>
+            }}
+            mute={isMute}/>
         )}
         {
           windows.faq && (

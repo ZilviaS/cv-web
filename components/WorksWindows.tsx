@@ -12,13 +12,27 @@ const KoHoFont = KoHo({
 
 interface Props {
   onClose: () => void;
+  mute: boolean;
 }
 
 
-export default function WorksWindow({ onClose }: Props){
+export default function WorksWindow({ onClose, mute }: Props){
     const nodeRef = useRef<HTMLDivElement>(null);
 
     const [isMobile, setIsMobile] = useState(false);
+
+    const notes = [
+      "/effect/C.wav",
+      "/effect/D.wav",
+      "/effect/E.wav",
+      "/effect/F.wav",
+      "/effect/G.wav",
+      "/effect/A.wav",
+      "/effect/B.wav",
+    ]
+
+    const noteIndex = useRef(0)
+    const sounds = useRef<HTMLAudioElement[]>([]);
 
     useEffect(() => {
       const check = () => setIsMobile(window.innerWidth < 768);
@@ -29,6 +43,24 @@ export default function WorksWindow({ onClose }: Props){
 
       return () => window.removeEventListener("resize", check);
     }, []);
+
+    useEffect(() => {
+      sounds.current = notes.map((n) => {
+        const audio = new Audio(n);
+        audio.preload = "auto";
+        return audio;
+      });
+    }, []);
+
+    const playNextNote = ()=>{
+      if (mute) return;
+      const audio = sounds.current[noteIndex.current];
+      audio.currentTime = 0;
+      audio.volume = 0.1;
+      audio.play();
+
+      noteIndex.current = (noteIndex.current + 1) % notes.length;
+    }
 
     return(
       <Draggable nodeRef={nodeRef} disabled={isMobile} handle=".title-bar">
@@ -49,42 +81,42 @@ export default function WorksWindow({ onClose }: Props){
               <p className="text-2xl font-medium">Tools</p>
               <div className="flex flex-col gap-1">
                 <div className="flex gap-2">
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Visual Studio Code</div>
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Unity 2D/3D</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Visual Studio Code</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Unity 2D/3D</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Arduino IDE</div>
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Raspberry PI</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Arduino IDE</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Raspberry PI</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Canva</div>
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Adobe Premiere Pro</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Canva</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Adobe Premiere Pro</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Adobe Photoshop</div>
-                  <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Cakewalk</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Adobe Photoshop</div>
+                  <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Cakewalk</div>
                 </div>
               </div>
             </div>
             <div className="w-[50%]">
               <p className="text-2xl font-medium">Development</p>
               <div className="flex gap-2">
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">C</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">C#</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Python</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">JavaScript</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1 hidden md:grid">HTML/CSS</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">C</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">C#</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Python</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">JavaScript</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1 hidden md:grid">HTML/CSS</div>
               </div>
               <div className="flex gap-2 mt-1">
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">React</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">TailwindCSS</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Python</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Node.js</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">React</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">TailwindCSS</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Python</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Node.js</div>
               </div>
               <div className="flex gap-2 mt-1">
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Next.js</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">ASP.NET</div>
-                <div className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1 md:hidden grid">HTML/CSS</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">Next.js</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1">ASP.NET</div>
+                <div onMouseEnter={playNextNote} className="p-2 text-center cursor-default rounded-xl border-1 border-b-4 border-gray-200 hover:translate-y-1 md:hidden grid">HTML/CSS</div>
               </div>
             </div>
           </div>
